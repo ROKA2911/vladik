@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Я тебя люблю 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+<style>
+  /* Базовые стили и тема */
+  :root {
+    --color-pink-light: #ffd1dc;
+    --color-pink-dark: #e91e63;
+    --color-pink-shadow: rgba(233, 30, 99, 0.5);
+    --color-night-bg: #1a1a2e;
+    --color-night-text: #f0f0f5;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Pacifico', cursive;
+    background: linear-gradient(to bottom right, var(--color-pink-light), #ffe4ec);
+    color: var(--color-pink-dark);
+    overflow-x: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
+    position: relative;
+  }
+
+  /* Ночная тема */
+  body.night {
+    background: linear-gradient(135deg, #0f1624, #1a1a2e);
+    color: var(--color-night-text);
+  }
+
+  /* Пульсирующая шапка */
+  header {
+    text-align: center;
+    font-size: 3.5rem;
+    margin-top: 50px;
+    animation: pulse 2s infinite;
+    user-select: none;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* Галерея */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    padding: 20px 15px 60px;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .photo {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--color-pink-shadow);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    user-select: none;
+  }
+  .photo:hover {
+    transform: scale(1.05);
+    z-index: 5;
+  }
+  .photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Надписи при наведении */
+  .caption {
+    position: absolute;
+    bottom: 0;
+    background: rgba(233, 30, 99, 0.8);
+    color: white;
+    width: 100%;
+    padding: 7px 5px;
+    font-size: 1rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    user-select: none;
+  }
+
+  .photo:hover .caption {
+    opacity: 1;
+  }
+
+  /* Волшебная пыль */
+  .magic-dust {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+  }
+  .dust {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 4px white);
+    animation: sparkle 3s infinite alternate ease-in-out;
+  }
+
+  @keyframes sparkle {
+    from { opacity: 0.2; }
+    to { opacity: 1; }
+  }
+
+  /* Падающие сердечки */
+  .hearts-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1000;
+  }
+  .heart {
+    position: fixed;
+    font-size: 15px;
+    user-select: none;
+    animation: fall 5s linear forwards;
+    filter: drop-shadow(0 0 3px #e91e63);
+  }
+  @keyframes fall {
+    0% { transform: translateY(-30px) scale(1); opacity: 1; }
+    100% { transform: translateY(110vh) scale(1.5); opacity: 0; }
+  }
+
+  /* Пульсирующее сердце */
+  #pulse-heart-container {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 150px;
+    color: var(--color-pink-dark);
+    animation: pulseHeart 2.5s infinite;
+    user-select: none;
+    z-index: 1100;
+    text-shadow: 0 0 15px var(--color-pink-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  #pulse-heart-container span {
+    font-size: 2.5rem;
+  }
+  @keyframes pulseHeart {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
+  }
+
+  /* Кнопки управления */
+  .btn-group {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1200;
+  }
+
+  button.control-btn {
+    background: var(--color-pink-dark);
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-size: 1rem;
+    padding: 12px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px var(--color-pink-shadow);
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+  button.control-btn:hover {
+    background: #ad1457;
+  }
+
+  /* Письмо */
+  #love-letter {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff0f6;
+    border: 2px solid var(--color-pink-dark);
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px var(--color-pink-shadow);
+    z-index: 1300;
+    max-width: 320px;
+    text-align: center;
+    display: none;
+  }
+  #love-letter p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  #love-letter button {
+    background: var(--color-pink-dark);
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+  }
+  #love-letter button:hover {
+    background: #ad1457;
+  }
+
+  /* Обратный отсчёт */
+  #countdown {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.3rem;
+    background: rgba(255, 209, 220, 0.8);
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: var(--color-pink-dark);
+    font-weight: 700;
+    box-shadow: 0 2px 10px var(--color-pink-shadow);
+    user-select: none;
+    z-index: 1200;
+  }
+  body.night #countdown {
+    background: rgba(30, 30, 50, 0.8);
+    color: var(--color-night-text);
+    box-shadow: 0 2px 10px #999;
+  }
+
+  /* Адаптив */
+  @media (max-width: 600px) {
+    header {
+      font-size: 2.3rem;
+      margin-top: 30px;
+    }
+    .gallery {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      padding-bottom: 80px;
+    }
+    .btn-group {
+      bottom: 10px;
+      right: 10px;
+      gap: 8px;
+    }
+    button.control-btn {
+      font-size: 0.9rem;
+      padding: 10px 15px;
+    }
+    #pulse-heart-container {
+      font-size: 100px;
+    }
+    #pulse-heart-container span {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>Я тебя люблю 💖</header>
+
+<div id="countdown" title="Дней вместе">Загрузка...</div>
+
+<div class="gallery" aria-label="Фотогалерея с надписями 'Я тебя люблю' на разных языках">
+  <!-- Фото будут вставлены скриптом -->
+</div>
+
+<!-- Пульсирующее сердце -->
+<div id="pulse-heart-container" aria-label="Пульсирующее сердце для тебя">
+  <div>❤️</div>
+  <span>Это для тебя</span>
+</div>
+
+<!-- Контейнер для падающих сердечек -->
+<div class="hearts-container" aria-hidden="true"></div>
+
+<!-- Волшебная пыль -->
+<div class="magic-dust" aria-hidden="true"></div>
+
+<!-- Кнопки управления -->
+<div class="btn-group">
+  <button id="music-btn" class="control-btn" aria-pressed="false" aria-label="Включить или выключить музыку">Включить музыку 🎶</button>
+  <button id="letter-btn" class="control-btn" aria-expanded="false" aria-controls="love-letter">Открыть письмо 💌</button>
+  <button id="theme-btn" class="control-btn" aria-pressed="false" aria-label="Переключить тему оформления">🌸 Розовая тема</button>
+</div>
+
+<!-- Окно письма -->
+<div id="love-letter" role="dialog" aria-modal="true" aria-labelledby="letter-title" tabindex="-1">
+  <p id="letter-title">Моё послание для тебя</p>
+  <p>Ты — самое прекрасное, что со мной случалось... 💖<br/>Спасибо, что ты есть в моей жизни! Каждый день с тобой — волшебство.</p>
+  <button id="close-letter-btn" aria-label="Закрыть письмо">Закрыть</button>
+</div>
+
+<!-- Музыка -->
+<audio id="bg-music" loop preload="auto" src="music.mp3"></audio>
+
+<script>
+  // --- Переменные ---
+  const gallery = document.querySelector('.gallery');
+  const heartsContainer = document.querySelector('.hearts-container');
+  const magicDustContainer = document.querySelector('.magic-dust');
+  const musicBtn = document.getElementById('music-btn');
+  const letterBtn = document.getElementById('letter-btn');
+  const loveLetter = document.getElementById('love-letter');
+  const closeLetterBtn = document.getElementById('close-letter-btn');
+  const bgMusic = document.getElementById('bg-music');
+  const themeBtn = document.getElementById('theme-btn');
+  const countdown = document.getElementById('countdown');
+  const pulseHeartContainer = document.getElementById('pulse-heart-container');
+
+  // --- 1. Фотогалерея с надписями "Я тебя люблю" на разных языках ---
+  const loveTexts = [
+    "Я тебя люблю", "I love you", "Je t'aime", "Te amo", "Ich liebe dich",
+    "Ti amo", "愛してる", "사랑해", "Люблю тебя", "Eu te amo",
+    "Ich hab dich lieb", "Jag älskar dig", "Ik hou van jou", "Te quiero",
+    "Σ' αγαπώ", "אני אוהב אותך", "Aš tave myliu", "Szeretlek", "Jeg elsker dig", "Jag älskar dig"
+  ];
+
+  for(let i=1; i<=20; i++) {
+    const div = document.createElement('div');
+    div.classList.add('photo');
+    div.setAttribute('tabindex', '0');
+    div.setAttribute('aria-label', `Фото с надписью: ${loveTexts[i-1]}`);
+    div.innerHTML = `<img src="images/${i}.jpg" alt="Фото ${i}" /><div class="caption">${loveTexts[i-1]}</div>`;
+    gallery.appendChild(div);
+  }
+
+  // --- 2. Фоновая музыка + кнопка Вкл/Выкл ---
+  let musicPlaying = false;
+  musicBtn.addEventListener('click', () => {
+    if (!musicPlaying) {
+      bgMusic.play();
+      musicPlaying = true;
+      musicBtn.textContent = "Выключить музыку 🔇";
+      musicBtn.setAttribute('aria-pressed', 'true');
+    } else {
+      bgMusic.pause();
+      musicPlaying = false;
+      musicBtn.textContent = "Включить музыку 🎶";
+      musicBtn.setAttribute('aria-pressed', 'false');
+    }
+  });
+
+  // --- 3. Кнопка "Письмо" ---
+  letterBtn.addEventListener('click', () => {
+    const isOpen = loveLetter.style.display === 'block';
+    if (isOpen) {
+      closeLetter();
+    } else {
+      openLetter();
+    }
+  });
+
+  closeLetterBtn.addEventListener('click', closeLetter);
+
+  function openLetter() {
+    loveLetter.style.display = 'block';
+    letterBtn.setAttribute('aria-expanded', 'true');
+    loveLetter.focus();
+  }
+  function closeLetter() {
+    loveLetter.style.display = 'none';
+    letterBtn.setAttribute('aria-expanded', 'false');
+    letterBtn.focus();
+  }
+
+  // Закрытие письма по Esc
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && loveLetter.style.display === 'block') {
+      closeLetter();
+    }
+  });
+
+  // --- 5. Обратный отсчёт дней вместе ---
+  // Настроить дату начала отношений здесь (ГГГГ-ММ-ДД)
+  const startDate = new Date('2022-08-04T00:00:00');
+
+  function updateCountdown() {
+    const now = new Date();
+    const diffMs = now - startDate;
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    countdown.textContent = `Мы вместе уже ${diffDays} ${declOfNum(diffDays, ['день', 'дня', 'дней'])} 💕`;
+  }
+  // Правильное склонение слов
+  function declOfNum(number, titles) {
+    const cases = [2, 0, 1, 1, 1, 2];
+    return titles[(number % 100 > 4 && number % 100 < 20)
+      ? 2
+      : cases[(number % 10 < 5) ? number % 10 : 5]];
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 60 * 60 * 1000);
+
+  // --- 6. Волшебная пыль при наведении ---
+  window.addEventListener('mousemove', e => {
+    createDust(e.clientX, e.clientY);
+  });
+  function createDust(x, y) {
+    const dust = document.createElement('div');
+    dust.className = 'dust';
+    dust.style.left = (x + (Math.random()*20-10)) + 'px';
+    dust.style.top = (y + (Math.random()*20-10)) + 'px';
+    magicDustContainer.appendChild(dust);
+    setTimeout(() => {
+      dust.remove();
+    }, 3000);
+  }
+
+  // --- 1. Падающие сердечки (сердце появляется каждые 500мс) ---
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.textContent = '❤️';
+    heart.style.left = (Math.random() * window.innerWidth) + 'px';
+    heart.style.fontSize = (12 + Math.random()*18) + 'px';
+    heartsContainer.appendChild(heart);
+    setTimeout(() => {
+      heart.remove();
+    }, 5000);
+  }
+  setInterval(createHeart, 500);
+
+  // --- 10. Переключение темы ---
+  let isPink = true;
+  themeBtn.addEventListener('click', () => {
+    if (isPink) {
+      document.body.classList.add('night');
+      themeBtn.textContent = "🌌 Ночная тема";
+      themeBtn.setAttribute('aria-pressed', 'true');
+    } else {
+      document.body.classList.remove('night');
+      themeBtn.textContent = "🌸 Розовая тема";
+      themeBtn.setAttribute('aria-pressed', 'false');
+    }
+    isPink = !isPink;
+  });
+
+  // --- 9. Пульсирующее сердце (скрываем через 8 секунд) ---
+  setTimeout(() => {
+    pulseHeartContainer.style.display = 'none';
+  }, 8000);
+
+</script>
+
+</body>
+</html>
