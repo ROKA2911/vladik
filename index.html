@@ -340,7 +340,7 @@
     div.classList.add('photo');
     div.setAttribute('tabindex', '0');
     div.setAttribute('aria-label', `Фото с надписью: ${loveTexts[i-1]}`);
-    div.innerHTML = `<img src="images/${i}.jpg" alt="Фото ${i}" /><div class="caption">${loveTexts[i-1]}</div>`;
+    div.innerHTML = `<img src="${i}.jpg" alt="Фото ${i}" /><div class="caption">${loveTexts[i-1]}</div>`;
     gallery.appendChild(div);
   }
 
